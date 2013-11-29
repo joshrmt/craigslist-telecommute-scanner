@@ -1,0 +1,52 @@
+﻿@model List<CraigslistScanner.Data.Job>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Craigslist Results</title>
+    
+    <link rel="stylesheet" type="text/css" href="/sorter/style.css" />
+
+    <script type="text/javascript" src="/scripts/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="/scripts/jquery.tablesorter.min.js"></script>
+</head>
+    <body>
+        <div>
+            <form action="/Home/Search">
+                <input type="text" name="term" />
+                <input type="submit" value="Search" />
+            </form>
+        </div>
+        <table class="tablesorter">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach (var job in Model.OrderByDescending(each => each.Date)) {
+                        <tr>
+                            <td>@job.Date.ToShortDateString()</td>
+                            <td>
+                                <a href="@job.Url">@job.Name</a>
+                            </td>
+                        </tr>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    
+        <script>
+            $(function () {
+                $(".tablesorter").tablesorter();
+            });
+        </script>
+    </body>
+</html>
